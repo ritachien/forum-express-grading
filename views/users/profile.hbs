@@ -54,10 +54,12 @@
         <a href="/users/{{this.id}}" class="text-decoration-none">
           {{#if this.image}}
           <img src="{{this.image}}" width="70" height="70" class="avatar p-1"
-            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;" />
+            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;"
+            title="{{this.name}}" />
           {{else}}
           <img src="https://via.placeholder.com/70" width="70" height="70" class="avatar p-1"
-            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;" />
+            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;"
+            title="{{this.name}}" />
           {{/if}}
         </a>
         {{/each}}
@@ -73,10 +75,12 @@
         <a href="/users/{{this.id}}" class="text-decoration-none">
           {{#if this.image}}
           <img src="{{this.image}}" width="70" height="70" class="avatar p-1"
-            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;" />
+            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;"
+            title="{{this.name}}" />
           {{else}}
           <img src="https://via.placeholder.com/70" width="60" height="60" class="avatar p-1"
-            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;" />
+            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;"
+            title="{{this.name}}" />
           {{/if}}
         </a>
         {{/each}}
@@ -93,7 +97,8 @@
         {{#each commentedRestaurants}}
         <a href="/restaurants/{{this.Restaurant.id}}" class="text-decoration-none">
           <img src={{this.Restaurant.image}} width="70" height="70" class="avatar p-1"
-            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;" />
+            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;"
+            title="{{this.Restaurant.name}}" />
         </a>
         {{/each}}
       </div>
@@ -107,7 +112,8 @@
         {{#each targetUser.FavoritedRestaurants}}
         <a href="/restaurants/{{this.id}}" class="text-decoration-none">
           <img src="{{this.image}}" width="70" height="70" class="avatar p-1"
-            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;" />
+            style="transition: opacity 0.5s; opacity:0; border-radius:50%;" onload="this.style.opacity=1;"
+            title="{{this.name}}" />
         </a>
         {{/each}}
       </div>
