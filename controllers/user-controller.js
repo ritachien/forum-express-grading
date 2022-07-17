@@ -197,6 +197,7 @@ const userController = {
   },
   getTopUsers: async (req, res, next) => {
     try {
+      const loginUserId = req.user.id
       const userData = await User.findAll({
         include: [{ model: User, as: 'Followers' }]
       })
@@ -208,7 +209,7 @@ const userController = {
         }))
         .sort((a, b) => b.followerCount - a.followerCount)
 
-      res.render('top-users', { users: topUsers })
+      res.render('top-users', { users: topUsers, loginUserId })
     } catch (err) { next(err) }
   },
   addFollowing: async (req, res, next) => {
