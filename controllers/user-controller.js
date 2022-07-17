@@ -52,7 +52,15 @@ const userController = {
   getUser: async (req, res, next) => {
     try {
       const [targetUser, commentedRestaurants] = await Promise.all([
-        User.findByPk(req.params.id, { raw: true }),
+        User.findByPk(req.params.id, {
+          nest: true,
+          include: [
+            { model: Comment, include: Restaurant },
+            { model: Restaurant, as: 'FavoritedRestaurants' },
+            { model: User, as: 'Followings' },
+            { model: User, as: 'Followers' }
+          ]
+        }),
         Comment.findAll({
           attributes: ['restaurantId'],
           include: Restaurant,
@@ -66,7 +74,7 @@ const userController = {
       if (!targetUser) throw new Error("User didn't exist!")
       res.render('users/profile', {
         user: getUser(req),
-        targetUser,
+        targetUser: targetUser.toJSON(),
         commentedRestaurants
       })
     } catch (err) { next(err) }

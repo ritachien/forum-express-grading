@@ -132,7 +132,6 @@ const restaurantController = {
         raw: true
       })
 
-      console.log(favData)
       const restaurants = favData
         .map(fav => ({
           favoritedCounts: fav.favoritedCounts,
