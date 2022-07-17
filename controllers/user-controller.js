@@ -226,6 +226,7 @@ const userController = {
       ])
 
       if (!user) throw new Error("User didn't exist!")
+      if (Number(userId) === req.user.id) throw new Error('Self-follow is not allow!')
       if (followship) throw new Error('You are already following this user!')
 
       await Followship.create({
