@@ -72,10 +72,12 @@ const userController = {
       ])
 
       if (!targetUser) throw new Error("User didn't exist!")
+      const isFollowed = req.user && req.user.Followings.some(f => f.id === targetUser.id)
       res.render('users/profile', {
         user: getUser(req),
         targetUser: targetUser.toJSON(),
-        commentedRestaurants
+        commentedRestaurants,
+        isFollowed
       })
     } catch (err) { next(err) }
   },

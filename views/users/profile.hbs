@@ -21,11 +21,21 @@
               <li><strong>{{targetUser.Followers.length}} 位粉絲(followers)</strong></li>
             </ul>
             </p>
-            {{#ifCond targetUser.id user.id}}
-            <p>
+            <div>
+              {{#ifCond targetUser.id user.id}}
               <a href="/users/{{targetUser.id}}/edit" class="btn btn-primary">edit</a>
-            </p>
-            {{/ifCond}}
+              {{else}}
+              {{#if isFollowed }}
+              <form action="/following/{{targetUser.id}}?_method=DELETE" method="POST" style="display: contents;">
+                <button type="submit" class="btn btn-warning">Followed</button>
+              </form>
+              {{else}}
+              <form action="/following/{{targetUser.id}}" method="POST" style="display: contents;">
+                <button type="submit" class="btn btn-outline-warning">Follow</button>
+              </form>
+              {{/if}}
+              {{/ifCond}}
+            </div>
           </div>
         </div>
       </div>
