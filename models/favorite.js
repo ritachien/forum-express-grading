@@ -5,6 +5,9 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Favorite extends Model {
     static associate (models) {
+      Favorite.belongsTo(models.Restaurant, {
+        foreignKey: 'restaurantId'
+      })
     }
   }
 

@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'restaurantId',
         as: 'LikedUsers'
       })
+      Restaurant.hasMany(models.Favorite, {
+        foreignKey: 'restaurantId'
+      })
     }
   }
 
