@@ -1,4 +1,4 @@
-const { Restaurant, Category, Comment, User, Favorite, sequelize } = require('../models')
+const { Restaurant, Category, Comment, User } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
 
 const restaurantController = {
@@ -115,30 +115,20 @@ const restaurantController = {
   getTopRestaurants: async (req, res, next) => {
     try {
       const ranksLimit = 10
-      const favData = await Favorite.findAll({
-        include: [Restaurant],
-        group: ['restaurant_id'],
-        attributes: {
-          include: [
-            [sequelize.fn('COUNT', sequelize.col('restaurant_id')), 'favoritedCounts']
-          ]
-        },
-        order: [
-          [sequelize.col('favoritedCounts'), 'DESC'],
-          ['restaurantId', 'ASC']
-        ],
-        limit: ranksLimit,
-        nest: true,
-        raw: true
+      const resData = await Restaurant.findAll({
+        include: [{ model: User, as: 'FavoritedUsers' }]
       })
 
-      const restaurants = favData
-        .map(fav => ({
-          favoritedCounts: fav.favoritedCounts,
-          ...fav.Restaurant,
-          description: fav.Restaurant.description.substring(0, 80) + '...',
-          isFavorited: req.user && req.user.FavoritedRestaurants.some(r => r.id === fav.restaurantId)
+      const restaurants = resData
+        .map(res => ({
+          ...res.dataValues,
+          description: res.description.substring(0, 80) + '...',
+          favoritedCount: res.FavoritedUsers.length,
+          isFavorited: req.user && req.user.FavoritedRestaurants.some(r => r.id === res.id)
         }))
+        .sort((a, b) => b.favoritedCount - a.favoritedCount)
+        .slice(0, ranksLimit)
+
       return res.render('top-restaurants', { restaurants })
     } catch (err) { next(err) }
   }
