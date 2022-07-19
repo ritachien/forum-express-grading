@@ -1,10 +1,10 @@
 // FilePath: controllers/user-controllers.js
 // Include modules
 const bcrypt = require('bcryptjs')
-const { getUser } = require('../helpers/auth-helpers')
-const { User, Comment, Restaurant, Favorite, Like, Followship } = require('../models')
+const { getUser } = require('../../helpers/auth-helpers')
+const { User, Comment, Restaurant, Favorite, Like, Followship } = require('../../models')
 // Options: localFileHandler, imgurFileHandler
-const fileHandler = require('../helpers/file-helpers').imgurFileHandler
+const fileHandler = require('../../helpers/file-helpers').imgurFileHandler
 
 // User Controller
 const userController = {

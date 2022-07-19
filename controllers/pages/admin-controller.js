@@ -1,8 +1,8 @@
 // FilePath: controllers/admin-controllers.js
 // Include modules
-const { Restaurant, User, Category } = require('../models')
+const { Restaurant, User, Category } = require('../../models')
 // Options: localFileHandler, imgurFileHandler
-const fileHandler = require('../helpers/file-helpers').imgurFileHandler
+const fileHandler = require('../../helpers/file-helpers').imgurFileHandler
 const SUPER_USER = 'root@example.com'
 
 // Controller
