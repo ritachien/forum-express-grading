@@ -105,13 +105,8 @@ const adminController = {
       res.redirect('/admin/restaurants')
     } catch (err) { next(err) }
   },
-  deleteRestaurant: async (req, res, next) => {
-    try {
-      const restaurant = await Restaurant.findByPk(req.params.id)
-      if (!restaurant) throw new Error('Restaurant did not exist!')
-      await restaurant.destroy()
-      res.redirect('/admin/restaurants')
-    } catch (err) { next(err) }
+  deleteRestaurant: (req, res, next) => {
+    adminServices.deleteRestaurant(req, (err, data) => err ? next(err) : res.redirect('/admin/restaurants', data))
   }
 }
 
