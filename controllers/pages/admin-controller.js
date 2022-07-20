@@ -1,6 +1,7 @@
 // FilePath: controllers/admin-controllers.js
 // Include modules
 const { Restaurant, User, Category } = require('../../models')
+const adminServices = require('../../services/admin-services')
 // Options: localFileHandler, imgurFileHandler
 const fileHandler = require('../../helpers/file-helpers').imgurFileHandler
 const SUPER_USER = 'root@example.com'
@@ -27,15 +28,8 @@ const adminController = {
       return res.redirect('/admin/users')
     } catch (err) { next(err) }
   },
-  getRestaurants: async (req, res, next) => {
-    try {
-      const restaurants = await Restaurant.findAll({
-        raw: true,
-        nest: true,
-        include: [Category]
-      })
-      res.render('admin/restaurants', { restaurants })
-    } catch (err) { next(err) }
+  getRestaurants: (req, res, next) => {
+    adminServices.getRestaurants((err, data) => err ? next(err) : res.render('admin/restaurants', data))
   },
   createRestaurant: async (req, res, next) => {
     try {
