@@ -25,6 +25,7 @@ app.set('view engine', 'hbs')
 
 // Middleware
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,

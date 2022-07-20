@@ -29,7 +29,7 @@ const adminController = {
     } catch (err) { next(err) }
   },
   getRestaurants: (req, res, next) => {
-    adminServices.getRestaurants((err, data) => err ? next(err) : res.render('admin/restaurants', data))
+    adminServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('admin/restaurants', data))
   },
   createRestaurant: async (req, res, next) => {
     try {
@@ -37,27 +37,12 @@ const adminController = {
       res.render('admin/create-restaurant', { categories })
     } catch (err) { next(err) }
   },
-  postRestaurant: async (req, res, next) => {
-    try {
-      // Check if required info got null
-      const { name, tel, address, openingHours, description, categoryId } = req.body
-      if (!name.trim()) throw new Error('Restaurant name is required!')
-
-      // Create new restaurant
-      const { file } = req // Get image file
-      const filePath = await fileHandler(file)
-      await Restaurant.create({
-        name: name.trim(),
-        tel,
-        address,
-        openingHours,
-        description,
-        image: filePath || null,
-        categoryId
-      })
+  postRestaurant: (req, res, next) => {
+    adminServices.postRestaurant(req, (err, data) => {
+      if (err) return next(err)
       req.flash('success_messages', 'restaurant was successfully created')
-      res.redirect('/admin/restaurants')
-    } catch (err) { next(err) }
+      res.render('admin/restaurants', data)
+    })
   },
   getRestaurant: async (req, res, next) => {
     try {
