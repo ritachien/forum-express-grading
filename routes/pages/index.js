@@ -1,4 +1,3 @@
-// FilePath: routes/index.js
 // Include modules
 const express = require('express')
 const router = express.Router()

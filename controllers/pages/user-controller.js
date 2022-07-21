@@ -1,6 +1,5 @@
-// FilePath: controllers/user-controllers.js
 // Include modules
-const bcrypt = require('bcryptjs')
+const userServices = require('../../services/user-services')
 const { getUser } = require('../../helpers/auth-helpers')
 const { User, Comment, Restaurant, Favorite, Like, Followship } = require('../../models')
 // Options: localFileHandler, imgurFileHandler
@@ -9,35 +8,12 @@ const fileHandler = require('../../helpers/file-helpers').imgurFileHandler
 // User Controller
 const userController = {
   signUpPage: (req, res) => res.render('signup'),
-  signUp: async (req, res, next) => {
-    try {
-      let { name, email, password, passwordCheck } = req.body
-
-      // Check form filling
-      name = name.trim()
-      email = email.trim()
-      password = password.trim()
-      passwordCheck = passwordCheck.trim()
-      if (!name || !email || !password || !passwordCheck) {
-        throw new Error('All block are required!')
-      }
-
-      // Check if password equals passwordCheck
-      if (password !== passwordCheck) throw new Error('Passwords does not match Password Check!')
-
-      // Check if email already signed up
-      const userFound = await User.findOne({ where: { email } })
-      if (userFound) throw new Error('Email already exists!')
-
-      // Create new user
-      await User.create({
-        name,
-        email,
-        password: bcrypt.hashSync(password, 10)
-      })
+  signUp: (req, res, next) => {
+    userServices.signUp(req, (err, data) => {
+      if (err) return next(err)
       req.flash('success_messages', 'Sign up succeed!')
       return res.redirect('/signin')
-    } catch (err) { next(err) }
+    })
   },
   signInPage: (req, res) => res.render('signin'),
   signIn: (req, res) => {
