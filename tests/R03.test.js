@@ -15,8 +15,8 @@ describe('# R03', () => {
           .stub(helpers, 'ensureAuthenticated')
           .returns(true)
         this.getUser = sinon.stub(helpers, 'getUser').returns({ id: 1 })
-       // 製作假資料
-       // 本 context 會用這筆資料進行測試
+        // 製作假資料
+        // 本 context 會用這筆資料進行測試
         this.UserMock = createModelMock('User', [{
           id: 1,
           email: 'root@example.com',
@@ -25,7 +25,7 @@ describe('# R03', () => {
         }])
 
         // 修改 userController 中的資料庫連線設定，由連向真實的資料庫 -> 改為連向模擬的 User table
-        this.userController = createControllerProxy('../controllers/user-controller', { User: this.UserMock })
+        this.userController = createControllerProxy('../controllers/pages/user-controller', { User: this.UserMock })
       })
 
       // 開始測試
@@ -44,7 +44,7 @@ describe('# R03', () => {
         res.render.getCall(0).args[0].should.equal('users/profile')
         res.render.getCall(0).args[1].user.id.should.equal(1)
       })
-      
+
       // 測試完畢，清除資料
       after(async () => {
         // 清除模擬驗證資料
@@ -71,7 +71,7 @@ describe('# R03', () => {
         }])
 
         // 連向模擬的 User table
-        this.userController = createControllerProxy('../controllers/user-controller', { User: this.UserMock })
+        this.userController = createControllerProxy('../controllers/pages/user-controller', { User: this.UserMock })
       })
 
       it(' GET /users/:id/edit ', async () => {
@@ -117,17 +117,17 @@ describe('# R03', () => {
         )
 
         // 連向模擬的 User table
-        this.userController = createControllerProxy('../controllers/user-controller', { User: this.UserMock })
+        this.userController = createControllerProxy('../controllers/pages/user-controller', { User: this.UserMock })
       })
 
       it(' PUT /users/:id ', async () => {
         // 模擬 request & response & next 
         // 對 PUT /users/1 發出 request，並夾帶 body.name = amdin2, user.id = 1
         const req = mockRequest({
-          user: {id: 1},
+          user: { id: 1 },
           params: { id: 1 },
           body: { name: 'admin2' },
-        }) 
+        })
         const res = mockResponse()
         const next = mockNext
 
@@ -136,7 +136,7 @@ describe('# R03', () => {
 
         // putUser 正確執行的話，應呼叫 req.flash 
         // req.flash 的參數應與下列字串一致
-        req.flash.calledWith('success_messages','使用者資料編輯成功').should.be.true
+        req.flash.calledWith('success_messages', '使用者資料編輯成功').should.be.true
         // putUser 執行完畢，應呼叫 res.redirect 並重新導向 /users/1
         res.redirect.calledWith('/users/1').should.be.true
         // putUser 執行完畢後，id:1 使用者的 name 應該已被修改 
